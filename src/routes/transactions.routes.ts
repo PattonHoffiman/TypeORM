@@ -6,7 +6,7 @@ import uploadConfig from '../config/upload';
 
 import TransactionsRepository from '../repositories/TransactionsRepository';
 import CreateTransactionService from '../services/CreateTransactionService';
-// import DeleteTransactionService from '../services/DeleteTransactionService';
+import DeleteTransactionService from '../services/DeleteTransactionService';
 // import ImportTransactionsService from '../services/ImportTransactionsService';
 
 const transactionsRouter = Router();
@@ -34,7 +34,11 @@ transactionsRouter.post('/', async (req, res) => {
 });
 
 transactionsRouter.delete('/:id', async (req, res) => {
-  // TODO
+  const { id } = req.params;
+  const deleteTransaction = new DeleteTransactionService();
+  await deleteTransaction.execute(id);
+
+  return res.status(204).send();
 });
 
 transactionsRouter.post('/import', upload.single('file'), async (req, res) => {
